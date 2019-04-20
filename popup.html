@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<link href="css/popup.css" rel="stylesheet" media="screen" /></head>
+	<body id="white">
+		<div class="activation-container " id="activation-popup-container">
+			<div class="disconnect-container hidden" id="disconnect-container">
+				<div class="section" id="repair">
+					<h2>Repair</h2>
+					<p class="lead">Got problems? Click to repair</p></div>
+				<div class="section" id="disconnect">
+					<h2 class="red">Disconnect</h2>
+					<p class="lead">Turn off Free VPN</p></div>
+			</div>
+			<div class="activation-orange activation-top" id="activation-half">
+				<div id="loading-activation">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+				<p id="activating-text">ACTIVATING VPN</p>
+				<img src="images/small_settings_icon.png" class="settings clickable" /></div>
+			<div class="activation-green activation-top hidden" id="activation-done">
+				<img src="images/done.png" id="activated-icon" />
+				<p id="activating-text">VPN ACTIVATED</p>
+				<img src="images/small_settings_icon.png" class="settings clickable" /></div>
+			<div class="activation-red activation-top hidden" id="activation-error">
+				<a href="mailto:g16324490@gmail.com?subject=VpnServer+issues" target="_blank">
+					<img src="images/email_white.png" id="error-icon"></a>
+				<p id="activating-text">POSSIBLE SERVER ISSUES</p>
+				<img src="images/small_settings_icon.png" class="settings clickable" /></div>
+			<div class="" id="activation-btm-half hidden">
+				<div class="activation-action text-center" id="go-website">
+					<p class="active-text" id="daily-free-limit-active-text">Support by vcvnc.com</p>
+					<a href="https://vcvnc.com" target="_blank" class="btn btn-primary btn-faux-raised btn-raised btn-small" id="go-website-btn">
+						<div class="inner-btn">GO WEBSITE</div></a>
+				</div>
+			</div>
+		</div>
+		<script src="popup.js"></script>
+	</body>
+
+</html>

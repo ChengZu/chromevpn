@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="css/options.css" rel="stylesheet" media="screen" />
+		<title>Free Vpn Options</title></head>
+	<body>
+		<nav class="navbar custom-navbar">
+			<div class="navbar-header">
+				<a class="navbar-brand">
+					<span class="logo invis-rounded">FREE
+						<span>VPN</span></span>
+				</a>
+			</div>
+		</nav>
+		<div class="container">
+			<div class="row">
+				<div class="options text-center" id="options">
+					<h1 class="page-header-desc">Options</h1>
+					<div class="shadow-box proxy-type text-center">
+						<h4>Proxy Type</h4>
+						<p class="proxy-type-desc">Choose proxy type, default is https</p>
+						<select class="styled-select" id="proxyType">
+							<option value="loading...">loading...</option></select>
+						<div class="container-fluid">
+							<div class="col-xs-3">
+								<button class="button" id="connect">Connect</button></div>
+							<div class="col-xs-3">
+								<button class="button" id="disconnect">Disconnect</button></div>
+							<div class="col-xs-3">
+								<button class="button" id="repair">Repair</button></div>
+						</div>
+					</div>
+					<div class="shadow-box support text-center">
+						<h4>Need help?</h4>
+						<div class="container-fluid">
+							<div class="col-xs-2">
+								<a href="https://vcvnc.com" target="_blank" class="box btn">
+									<img src="images/subscribe.png">
+									<p>Get support from us</p>
+								</a>
+							</div>
+							<div class="col-xs-2">
+								<a href="mailto:g16324490@gmail.com" target="_blank" class="box btn">
+									<img src="images/email-round.png">
+									<p>Send us an email</p>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="popLayer"></div>
+		<div id="popBox">
+			<div id="popContent">On Setting...</div>
+		</div>
+		
+	</body>
+	<script src="options.js"></script>
+
+</html>

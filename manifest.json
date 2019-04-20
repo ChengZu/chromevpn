@@ -1,0 +1,26 @@
+{
+    "name": "Free VPN- Bypass and unblock",
+    "version": "1.0",
+    "description": "Quickly access blocked sites securely",
+    "permissions": ["proxy", "activeTab", "declarativeContent", "storage", "http://*/*", "https://*/*"],
+    "background": {
+      "scripts": ["proxy.js", "jquery-3.4.0.min.js"],
+      "persistent": true
+    },
+	"options_page": "options.html",
+	"browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+         "19": "images/icon-19.png",
+         "38": "images/icon-38.png"
+      },
+      "default_title": "Toggle Free VPN"
+	},
+    "icons": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    },
+    "manifest_version": 2
+  }
