@@ -21,16 +21,16 @@ function constructOptions(proxyServer) {
 		selected = '';
 	}
 
-	document.getElementById('connect').onclick = function(element) {
+	document.getElementById('connect').onclick = function(e) {
 		setProxy();
 	};
 
-	document.getElementById('disconnect').onclick = function(element) {
+	document.getElementById('disconnect').onclick = function(e) {
 		popBox('Success.', 1500);
 		proxy.clearProxy();
 	};
 
-	document.getElementById('repair').onclick = function(element) {
+	document.getElementById('repair').onclick = function(e) {
 		popBox('Success.', 1500);
 		proxy.repair();
 	};
