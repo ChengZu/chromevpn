@@ -4,19 +4,19 @@ var proxy = chrome.extension.getBackgroundPage().proxy;
 function constructPage() {
 	var options = document.getElementsByClassName('settings');
 	for (var item of options) {
-		item.onclick = function(element) {
+		item.onclick = function(e) {
 			proxy.openPage("options.html");
 			window.close();
 		};
 	}
 	if (proxy.state.get() == proxy.STATES.ACTIVATE) {
 		hiddenPage(false, true, true, true);
-		document.getElementById('disconnect').onclick = function(element) {
+		document.getElementById('disconnect').onclick = function(e) {
 			proxy.clearProxy();
 			window.close();
 		};
 
-		document.getElementById('repair').onclick = function(element) {
+		document.getElementById('repair').onclick = function(e) {
 			proxy.repair();
 			window.close();
 		};
