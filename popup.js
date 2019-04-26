@@ -25,7 +25,7 @@ function constructPage() {
 		hiddenPage(true, false, true, true);
 		proxy.setProxy();
 		//if onsetting setProxy() will do nothing, also addListener to update page,
-		//but event may happen befor add to listener container, this may happen when you click popup too fast
+		//but event may happen before add to listener container, this may happen when you click popup too fast
 		//TOODO 
 		//proxy.state.onChange.addListener(activationListener);
 
