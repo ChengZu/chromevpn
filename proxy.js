@@ -33,7 +33,6 @@ PROXY.prototype = {
 
 	init: function() {
 		var _that = this;
-		_that.repair();
 		_that.updateProxyState(true);
 		
 		_that.getStorage('proxyType',
@@ -195,16 +194,16 @@ PROXY.prototype = {
 	updateProxyState: function(updateUI) {
 		var _that = this;
 		chrome.proxy.settings.get({},
-
+		
 		function(data) {
-			//Enum "not_controllable", "controlled_by_other_extensions", "controllable_by_this_extension", or "controlled_by_that_extension"
+			//Enum "not_controllable", "controlled_by_other_extensions", "controllable_by_this_extension", or "controlled_by_this_extension"
 			if (data.levelOfControl == 'not_controllable') {
 				_that.state.set(_that.STATES.CAN_NOT_RUN);
 			} else if (data.levelOfControl == 'controlled_by_other_extensions') {
 				_that.state.set(_that.STATES.CTR_BY_OTHER);
 			} else if (data.levelOfControl == 'controllable_by_this_extension') {
 				_that.state.set(_that.STATES.CAN_RUN);
-			} else if (data.levelOfControl == 'controlled_by_that_extension') {
+			} else if (data.levelOfControl == 'controlled_by_this_extension') {
 				_that.state.set(_that.STATES.ACTIVATE);
 			}else{
 			}
