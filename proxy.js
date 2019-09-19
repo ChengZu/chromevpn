@@ -46,9 +46,7 @@ PROXY.prototype = {
 			if (_that.state.get() == _that.STATES.ON_SETTING) {
 				return;
 			}
-			_that.updateProxyState(true);
-			
-			
+			_that.updateProxyState(true);	
 		});
 
 		chrome.proxy.onProxyError.addListener(function(e) {
