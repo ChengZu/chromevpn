@@ -34,27 +34,26 @@ PROXY.prototype = {
 	init: function() {
 		var _that = this;
 		_that.repair();
-		_that.updateProxyState();
-		_that.updateStateAndUI(_that.state.get());
+		_that.updateProxyState(true);
+		
 		_that.getStorage('proxyType',
 		function(result) {
 			if (result) _that.proxyType = result.proxyType;
 		});
 
-		chrome.proxy.settings.onChange.addListener(function() {
-			//TOODO onChange before event
+		chrome.proxy.settings.onChange.addListener(function(e) {
+			_that.log('proxy settings onChange.' + e.levelOfControl);
 			if (_that.state.get() == _that.STATES.ON_SETTING) {
 				return;
 			}
-			_that.updateProxyState();
-			_that.updateStateAndUI(_that.state.get());
-			_that.log('proxy settings onChange.' + _that.state.get());
+			_that.updateProxyState(true);
+			
+			
 		});
 
-		chrome.proxy.onProxyError.addListener(function() {
+		chrome.proxy.onProxyError.addListener(function(e) {
 			_that.repair();
-			_that.updateProxyState();
-			_that.updateStateAndUI(_that.state.get());
+			_that.updateProxyState(true);
 			_that.log('proxy onProxyError.');
 		});
 
@@ -81,6 +80,8 @@ PROXY.prototype = {
 		/*server return json format
 		*{"spdy":{"host":"b-2.gomcomm.com","type":"spdy","id":"c79438dc-261c-11e6-908c-6c4008b73ff0","ports":[{"type":"default","number":"443"},{"type":"spdy","number":"40001"},{"type":"http","number":"55555"}]},"free_tier_recharge_mins":0.5,"free_tier_mins":15}
 		*/
+		//return callback({"spdy":{"host":"b-2.gomcomm.com","type":"spdy","id":"c79438dc-261c-11e6-908c-6c4008b73ff0","ports":[{"type":"default","number":"443"},{"type":"spdy","number":"40001"},{"type":"http","number":"55555"}]},"free_tier_recharge_mins":0.5,"free_tier_mins":15});
+
 		var _that = this;
 		_that.deviceId = _that.genUuid();
 		$.ajax({
@@ -160,8 +161,8 @@ PROXY.prototype = {
 			scope: "regular"
 		};
 		chrome.proxy.settings.clear(settings,
-		function() {
-			_that.updateStateAndUI(_that.STATES.CAN_RUN);
+		function(e) {
+			_that.updateProxyState(true);
 		});
 	},
 
@@ -193,24 +194,25 @@ PROXY.prototype = {
 		});
 	},
 
-	updateProxyState: function() {
+	updateProxyState: function(updateUI) {
 		var _that = this;
 		chrome.proxy.settings.get({},
 
 		function(data) {
-			//Enum "not_controllable", "controlled_by_other_extensions", "controllable_by_that_extension", or "controlled_by_that_extension"
+			//Enum "not_controllable", "controlled_by_other_extensions", "controllable_by_this_extension", or "controlled_by_that_extension"
 			if (data.levelOfControl == 'not_controllable') {
 				_that.state.set(_that.STATES.CAN_NOT_RUN);
 			} else if (data.levelOfControl == 'controlled_by_other_extensions') {
 				_that.state.set(_that.STATES.CTR_BY_OTHER);
-			} else if (data.levelOfControl == 'controllable_by_that_extension') {
+			} else if (data.levelOfControl == 'controllable_by_this_extension') {
 				_that.state.set(_that.STATES.CAN_RUN);
 			} else if (data.levelOfControl == 'controlled_by_that_extension') {
 				_that.state.set(_that.STATES.ACTIVATE);
+			}else{
 			}
-
+			if(updateUI != undefined) _that.updateStateAndUI(_that.state.get());
 		});
-
+		
 	},
 
 	updateStateAndUI: function(value) {
