@@ -1,5 +1,3 @@
-'use strict';
-
 var proxy = chrome.extension.getBackgroundPage().proxy;
 function constructPage() {
 	var options = document.getElementsByClassName('settings');
@@ -15,46 +13,26 @@ function constructPage() {
 			proxy.clearProxy();
 			window.close();
 		};
-
 		document.getElementById('repair').onclick = function(e) {
 			proxy.repair();
 			window.close();
 		};
 	} else {
-
 		hiddenPage(true, false, true, true);
 		proxy.setProxy();
-		//if onsetting setProxy() will do nothing, also addListener to update page,
-		//but event may happen before add to listener container, this may happen when you click popup too fast
-		//TOODO 
-		//proxy.state.onChange.addListener(activationListener);
-
-		var thread = setInterval(function() {
-			if (proxy.state.get() == proxy.STATES.ACTIVATE) {
-				hiddenPage(true, true, false, true);
-				clearInterval(thread);
-			} else if (proxy.state.get() == proxy.STATES.CAN_RUN || proxy.state.get() == proxy.STATES.SERVER_ERROR || proxy.state.get() == proxy.STATES.ON_ERROR) {
-				hiddenPage(true, true, true, false);
-				proxy.repair();
-				clearInterval(thread);
-			} else if (proxy.state.get() == proxy.STATES.CAN_RUN) {
-				hiddenPage(true, true, true, false);
-				proxy.repair();
-				clearInterval(thread);
-			}
-		},
-		50);
-
+		proxy.state.onChange.addListener(activationListener);
 	}
 }
 
 function activationListener(oldState, newState) {
+	if(newState == proxy.STATES.ON_SETTING) return false;
 	if (proxy.state.get() == proxy.STATES.ACTIVATE) {
 		hiddenPage(true, true, false, true);
-	} else if (proxy.state.get() == proxy.STATES.SERVER_ERROR || proxy.state.get() == proxy.STATES.ON_ERROR) {
+	} else if (proxy.state.get() == proxy.STATES.CAN_RUN || proxy.state.get() == proxy.STATES.SERVER_ERROR || proxy.state.get() == proxy.STATES.ON_ERROR) {
 		hiddenPage(true, true, true, false);
 		proxy.repair();
 	} else {
+		hiddenPage(true, true, true, false);
 		proxy.repair();
 		window.close();
 	}
@@ -72,7 +50,7 @@ function hiddenPage(disconnectPage, activationHalfPage, activationDonePage, acti
 
 	if (activationErrorPage) document.getElementById('activation-error').style.display = "none";
 	else document.getElementById('activation-error').style.display = "block";
-
+	
 }
 
 window.onload = function() {
