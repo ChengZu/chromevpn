@@ -1,5 +1,3 @@
-'use strict';
-
 var PROXY = function() {
 	this.OPTS = {
 		API_HOSTS: 'https://api.gomcomm.com',
@@ -41,16 +39,12 @@ PROXY.prototype = {
 		});
 
 		chrome.proxy.settings.onChange.addListener(function(e) {
-			_that.log('proxy settings onChange.' + e.levelOfControl);
-			if (_that.state.get() == _that.STATES.ON_SETTING) {
-				return;
-			}
+			_that.log('proxy settings onChange: ' + e.levelOfControl);
 			_that.updateProxyState(true);	
 		});
 
 		chrome.proxy.onProxyError.addListener(function(e) {
 			_that.repair();
-			_that.updateProxyState(true);
 			_that.log('proxy onProxyError.');
 		});
 
@@ -114,6 +108,7 @@ PROXY.prototype = {
 
 		_that.state.set(_that.STATES.ON_SETTING);
 		//run on getProxyServer success
+		
 		_that.getProxyServer(function(data) {
 			if (!data) return _that.updateStateAndUI(_that.STATES.SERVER_ERROR);
 
@@ -137,9 +132,7 @@ PROXY.prototype = {
 			},
 			function() {
 				_that.pingEndpoint(function(success) {
-					if (success) {
-						_that.updateStateAndUI(_that.STATES.ACTIVATE);
-					} else {
+					if (success == false) {
 						_that.updateStateAndUI(_that.STATES.ON_ERROR);
 					}
 				});
@@ -159,7 +152,7 @@ PROXY.prototype = {
 		};
 		chrome.proxy.settings.clear(settings,
 		function(e) {
-			_that.updateProxyState(true);
+			_that.log('Clear Proxy.');
 		});
 	},
 
@@ -242,16 +235,17 @@ PROXY.prototype = {
 			},
 			removeListener: function(item) {
 				for (var i = 0; i < this.listener.length; i++) {
-					if (this.listener[i] == item) {
+					if (this.listener[i] == item) {console.log(this.listener);
 						this.listener.splice(i, 1);
 						i--;
 					}
 				}
 			},
 			dispatchevent: function(oldState, newState) {
-				for (var item of this.listener) {
-					if (item(oldState, newState)) {
-						this.removeListener(item);
+				for (var i = 0; i < this.listener.length; i++) {
+					if (this.listener[i](oldState, newState)) {
+						this.listener.splice(i, 1);
+						i--;
 					}
 				}
 			},
@@ -315,8 +309,5 @@ PROXY.prototype = {
 }
 
 var proxy = new PROXY();
-
-chrome.runtime.onInstalled.addListener(function() {
-	proxy.log('Free VPN Init.');
-	proxy.init();
-});
+proxy.log('Free VPN Init.');
+proxy.init();
