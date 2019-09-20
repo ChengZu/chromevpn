@@ -19,8 +19,8 @@ function constructPage() {
 		};
 	} else {
 		hiddenPage(true, false, true, true);
-		proxy.setProxy();
 		proxy.state.onChange.addListener(activationListener);
+		proxy.setProxy();
 	}
 }
 
