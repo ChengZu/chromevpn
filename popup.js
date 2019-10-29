@@ -51,6 +51,7 @@ function hiddenPage(disconnectPage, activationHalfPage, activationDonePage, acti
 	if (activationErrorPage) document.getElementById('activation-error').style.display = "none";
 	else document.getElementById('activation-error').style.display = "block";
 	
+	document.getElementById('white').style.display = "block";
 }
 
 window.onload = function() {
